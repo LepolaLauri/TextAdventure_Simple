@@ -3,7 +3,7 @@
 ///  Raaka versio
 /// </summary>
 
-const int PAIKKOJEN_MAARA = 5;
+const int PAIKKOJEN_MAARA = 6;
 const int ESINEIDEN_MAARA = 3;
 const int ILMANSUUNTIEN_MAARA = 6;
 
@@ -16,7 +16,8 @@ string[] paikan_kuvaus = new string[PAIKKOJEN_MAARA]
         "Olet omassa huoneessasi Draculan linnassa. On aamu ja näit hänet viimeksi eilen, saatettuaan sinut tänne kammioon. Pohjoiseen on ovi.",
         "Olet käytävällä, jossa muutamien taulujen lisäksi ei näytäisi olevan mitään muuta.",
         "Olet vieras huoneessa, joka näyttää samalta kuin sinun oma huoneesi.",
-        "Olet oudossa pienessä huoneessa. Se näyttäisi olevan täysin tyhjä."
+        "Olet oudossa pienessä huoneessa. Se näyttäisi olevan täysin tyhjä.",
+        "ALAKERTA."
     };
 
 // Ilmansuunnat mihin yksittäisestä paikasta pääsee liikkumaan.
@@ -30,7 +31,8 @@ paikan_ilmansuunnat[0] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 0, 0, 0 }; // P
 paikan_ilmansuunnat[1] = new int[ILMANSUUNTIEN_MAARA] { -1, 0, 0, 0, 0, 0 }; // Aloitus huone lukittu ovi pohjoiseen
 paikan_ilmansuunnat[2] = new int[ILMANSUUNTIEN_MAARA] { 0, 4, 1, 3, 0, 0 };  // Käytävä
 paikan_ilmansuunnat[3] = new int[ILMANSUUNTIEN_MAARA] { 0, 2, 0, 0, 0, 0 };  // Vierashuone
-paikan_ilmansuunnat[4] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 2, 0, -1 }; // Outo pieni huone
+paikan_ilmansuunnat[4] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 2, 0, -1 }; // Outo pieni huone jossa salaportaat -> löytyy vasta kun on tutkittu huone ja painettu nappia
+paikan_ilmansuunnat[5] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 0, 4, 0 };  // ALAKERTA
 
 // Esineet kuvattuna ja talletettu string arrayhyn. 
 string[] esineen_kuvaus = new string[ESINEIDEN_MAARA]
@@ -61,6 +63,9 @@ bool paikka1Ovi = false;
 
 // Määritetään paikan 4 salanappi -> onko löydetty
 bool paikka4nappi = false;
+
+// Määritetään paikan 4 salanappi -> onko painettu
+bool paikka4nappipainettu = false;
 
 // Kierros
 do
@@ -338,9 +343,27 @@ do
                 paikka4nappi = true;
             }
             else if (komennot[1] == "HUO" && nykyinen_paikka != 4) { Console.WriteLine("Tutkit huonetta mutta et näe mitään epätavallista."); }
-            else if (komennot[1] == "AVA" && esineen_sijainti[1] == 0) { Console.WriteLine("Avain on ihan normaali ja käy omaan huoneesi oveen."); } 
+            else if (komennot[1] == "AVA" && esineen_sijainti[1] == 0) { Console.WriteLine("Avain on ihan normaali ja käy omaan huoneesi oveen."); }
             else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Tutkit kissaa ja se on musta."); } // Hassu kissa tapahtuma
             else Console.WriteLine("Tutkit MITÄ?"); // Tutkitaan jotain ihmeellistä
+        }
+
+        // Paina komento ja sen käsittely
+        else if (komennot[0] == "PAI")
+        {
+            if (komennot[1] == "NAP" && nykyinen_paikka == 4 && paikka4nappi == true && paikka4nappipainettu == false)
+            {
+                Console.WriteLine("Painat nappia seinästä ja yht'äkkiä kuuluu kova ääni. Pian lattiasta lähtee salaportaat alaspäin.");
+                paikka4nappipainettu = true;
+                paikan_ilmansuunnat[4][5] = 5;
+                paikan_kuvaus[4] = "Olet oudossa pienessä huoneessa. Täällä on salaiset portaat alaspäin";
+            }
+            else if (komennot[1] == "NAP" && nykyinen_paikka == 4 && paikka4nappi == true && paikka4nappipainettu == true)
+            {
+                Console.WriteLine("Olet jo painanut nappia. Näyttäisi siltä mitään ei tapahdu enää.");
+            }
+            else if (komennot[1] == "NAP") { Console.WriteLine("Täällä ei ole nappia mitä painaa."); }
+            else Console.WriteLine("Painat MITÄ?"); // Tutkitaan jotain ihmeellistä
         }
 
         // Käsky mitä ei ymmärretä
