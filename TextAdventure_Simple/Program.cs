@@ -323,7 +323,7 @@ do
                 esineen_sijainti[2] = nykyinen_paikka; // Esineen sijainti määritellään nykyiseen paikkaan
             }
             else if (komennot[1] == "AVA" && esineen_sijainti[1] != 0) { Console.WriteLine("Sinulla ei ole avainta jota pudottaa."); } // Pudotetaan esinettä jota ei ole
-            else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Yrität siis pudottaa kissan. Liian raakaa, ei onnistu!"); } // Hassu kissa tapahtuma
+            else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Yrität siis pudottaa kissan. Kunhan nyt saisit sen edes kiini, ei onnistu!"); } // Hassu kissa tapahtuma
             else Console.WriteLine("Pudotat MITÄ?"); // Pudotetaan jotain ihmeellistä
         }
 
@@ -336,9 +336,10 @@ do
                 Console.WriteLine("Tutkit pientä outoa huonetta ja löydät seinästä pienen napin.");
                 paikka4nappi = true;
             }
-            else if (komennot[1] == "HUO" || nykyinen_paikka != 4) { Console.WriteLine("Tutkit huonetta mutta et näe mitään epätavallista."); } 
+            else if (komennot[1] == "HUO" && nykyinen_paikka != 4) { Console.WriteLine("Tutkit huonetta mutta et näe mitään epätavallista."); }
+            else if (komennot[1] == "AVA" && esineen_sijainti[1] == 0) { Console.WriteLine("Avain on ihan normaali ja käy omaan huoneesi oveen."); } 
             else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Tutkit kissaa ja se on musta."); } // Hassu kissa tapahtuma
-            else Console.WriteLine("Tutkit MITÄ?"); // Pudotetaan jotain ihmeellistä
+            else Console.WriteLine("Tutkit MITÄ?"); // Tutkitaan jotain ihmeellistä
         }
 
         // Käsky mitä ei ymmärretä
