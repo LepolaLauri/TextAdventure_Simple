@@ -56,6 +56,9 @@ int nykyinen_paikka = 1;
 // Määritetään poistumismuuttuja
 bool exit = true;
 
+// Määritetään paikan 1 ovi -> onko auki vai ei
+bool paikka1Ovi = false;
+
 // Kierros
 do
 {
@@ -284,11 +287,17 @@ do
         // Avaa komento ja sen käsittely
         else if (komennot[0] == "AVA")
         {
-            // Komento AVAA OVI ja paikan sijainti = 1 sekä esine 1 (avain) on otettu taskuun
-            if (komennot[1] == "OVI" && nykyinen_paikka == 1 && esineen_sijainti[1] == 0)
+            // Komento AVAA OVI ja paikan sijainti = 1 sekä esine 1 (avain) on otettu taskuun : Ovea ei ole avattu aiemmin
+            if (komennot[1] == "OVI" && nykyinen_paikka == 1 && esineen_sijainti[1] == 0 && paikka1Ovi == false)
             {
                 Console.WriteLine("Avain kävi oveen ja sait sen auki.");
+                paikka1Ovi = true; // Ovi avattu paikassa 1
                 paikan_ilmansuunnat[1][0] = 2; // Muutetaan paikan 1 kulkeminen pohjoiseen tästä lähtien "auki" eli suoraan paikkaan 2
+            }
+            // Komento AVAA OVI ja paikan sijainti = 1 sekä esine 1 (avain) on otettu taskuun : Ovea on avattu aiemmin
+            if (komennot[1] == "OVI" && nykyinen_paikka == 1 && esineen_sijainti[1] == 0 && paikka1Ovi == true)
+            {
+                Console.WriteLine("Olet jo avannut oven ja se nyt pysyvästi auki.");
             }
             else if (komennot[1] == "OVI") { Console.WriteLine("Täällä ei ole ovea mitä avata."); } // Avataan ovi jota ei ole
             else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Yrität siis avata kissan. Liian raakaa, ei onnistu!"); } // Hassu kissa tapahtuma
