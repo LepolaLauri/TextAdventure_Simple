@@ -296,6 +296,7 @@ do
                 Console.WriteLine("Avain kävi oveen ja sait sen auki.");
                 paikka1Ovi = true; // Ovi avattu paikassa 1
                 paikan_ilmansuunnat[1][0] = 2; // Muutetaan paikan 1 kulkeminen pohjoiseen tästä lähtien "auki" eli suoraan paikkaan 2
+                paikan_kuvaus[1] = "Olet omassa huoneessasi Draculan linnassa. On aamu ja näit hänet viimeksi eilen, saatettuaan sinut tänne kammioon. Pohjoiseen oleva ovi on nyt auki.";
             }
             // Komento AVAA OVI ja paikan sijainti = 1 sekä esine 1 (avain) on otettu taskuun : Ovea on avattu aiemmin
             if (komennot[1] == "OVI" && nykyinen_paikka == 1 && esineen_sijainti[1] == 0 && paikka1Ovi == true)
