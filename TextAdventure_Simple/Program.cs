@@ -27,10 +27,10 @@ string[] paikan_kuvaus = new string[PAIKKOJEN_MAARA]
 int[][] paikan_ilmansuunnat = new int[PAIKKOJEN_MAARA][];
 
 paikan_ilmansuunnat[0] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 0, 0, 0 }; // Paikkaa ei ole, kuten ei ole ilmansuuntiakaan
-paikan_ilmansuunnat[1] = new int[ILMANSUUNTIEN_MAARA] { -1, 0, 0, 0, 0, 0 };
-paikan_ilmansuunnat[2] = new int[ILMANSUUNTIEN_MAARA] { 0, 3, 1, 4, 0, 0 };
-paikan_ilmansuunnat[3] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 2, 0, 0 };
-paikan_ilmansuunnat[4] = new int[ILMANSUUNTIEN_MAARA] { 0, 2, 0, 0, 0, -1 };
+paikan_ilmansuunnat[1] = new int[ILMANSUUNTIEN_MAARA] { -1, 0, 0, 0, 0, 0 }; // Aloitus huone lukittu ovi pohjoiseen
+paikan_ilmansuunnat[2] = new int[ILMANSUUNTIEN_MAARA] { 0, 4, 1, 3, 0, 0 };  // Käytävä
+paikan_ilmansuunnat[3] = new int[ILMANSUUNTIEN_MAARA] { 0, 2, 0, 0, 0, 0 };  // Vierashuone
+paikan_ilmansuunnat[4] = new int[ILMANSUUNTIEN_MAARA] { 0, 0, 0, 2, 0, -1 }; // Outo pieni huone
 
 // Esineet kuvattuna ja talletettu string arrayhyn. 
 string[] esineen_kuvaus = new string[ESINEIDEN_MAARA]
@@ -59,6 +59,9 @@ bool exit = true;
 // Määritetään paikan 1 ovi -> onko auki vai ei
 bool paikka1Ovi = false;
 
+// Määritetään paikan 4 salanappi -> onko löydetty
+bool paikka4nappi = false;
+
 // Kierros
 do
 {
@@ -76,7 +79,7 @@ do
         else
         {
             if (i == 0) ilmansuunnat += "POHJOISEEN ";
-            else if (i == 1) ilmansuunnat += "ITÄÄÄN ";
+            else if (i == 1) ilmansuunnat += "ITÄÄN ";
             else if (i == 2) ilmansuunnat += "ETELÄÄN ";
             else if (i == 3) ilmansuunnat += "LÄNTEEN ";
             else if (i == 4) ilmansuunnat += "YLÖS ";
@@ -322,6 +325,20 @@ do
             else if (komennot[1] == "AVA" && esineen_sijainti[1] != 0) { Console.WriteLine("Sinulla ei ole avainta jota pudottaa."); } // Pudotetaan esinettä jota ei ole
             else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Yrität siis pudottaa kissan. Liian raakaa, ei onnistu!"); } // Hassu kissa tapahtuma
             else Console.WriteLine("Pudotat MITÄ?"); // Pudotetaan jotain ihmeellistä
+        }
+
+        // Tutki komento ja sen käsittely
+        else if (komennot[0] == "TUT")
+        {
+            // 
+            if (komennot[1] == "HUO" && nykyinen_paikka == 4)
+            {
+                Console.WriteLine("Tutkit pientä outoa huonetta ja löydät seinästä pienen napin.");
+                paikka4nappi = true;
+            }
+            else if (komennot[1] == "HUO" || nykyinen_paikka != 4) { Console.WriteLine("Tutkit huonetta mutta et näe mitään epätavallista."); } 
+            else if (komennot[1] == "KIS" || kissa == true) { Console.WriteLine("Tutkit kissaa ja se on musta."); } // Hassu kissa tapahtuma
+            else Console.WriteLine("Tutkit MITÄ?"); // Pudotetaan jotain ihmeellistä
         }
 
         // Käsky mitä ei ymmärretä
