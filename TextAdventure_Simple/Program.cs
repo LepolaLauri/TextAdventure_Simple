@@ -1,6 +1,6 @@
 ﻿/// <summary>
 ///  Text Adventure Simple
-///  Raaka versio
+///  Raaka versio 
 /// </summary>
 
 const int PAIKKOJEN_MAARA = 6;
